@@ -3,19 +3,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 const configEnv = require('../config/configEnv');
 
-//db desarrollo
-/*
-const dbParams = {
-    user: (process.env.USER_DB || 'pffyesodvpvsrp'),
-    host: (process.env.HOST_DB || 'ec2-174-129-242-183.compute-1.amazonaws.com'),
-    database: (process.env.DATABASE_NAME || 'd83inhs3bq9ufb'),
-    password: (process.env.PASSWORD_DB ||'f4de35950e23261169a79f8ac3007630aaefc8ff887c147b9283a8f68b165019'),
-    port: (process.env.PORT_DB ||5432),
-    ssl:true
-   // ssl: { rejectUnauthorized: false }
-};
-*/
-
 console.log("================ INIT PARAMS DB ===============");
 console.log(`USER ${configEnv.USER_DB}`);
 console.log(`HOST ${configEnv.HOST_DB}`);
@@ -32,16 +19,6 @@ const pool = new Pool({
     max: 5,   
     ssl: { rejectUnauthorized: false }
 });
-/*
-const pool = new Pool({
-    user: "steifvljsbjelz",
-    host: "ec2-52-72-125-94.compute-1.amazonaws.com",
-    database: "ddouqvi1mtviob",
-    password: "5b1387564423855725fa5fa33c91696d5baf3f4362876a2dc329dcc80e46ebed",
-    port: 5432,
-    max: 5,    
-    ssl: { rejectUnauthorized: false }
-});*/
 
 (async function() {
     console.log("====== TESTING DB =========");

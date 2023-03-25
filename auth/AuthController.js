@@ -1,9 +1,4 @@
 
-/*const { pool } = require('../db/conexion');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const config = require('../config/configJwt');
-*/
 const handle = require('../helpers/handlersErrors');
 
 const authService = require('../services/authService');

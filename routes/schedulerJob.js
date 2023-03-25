@@ -3,7 +3,7 @@ const schedule = require('node-schedule');
 const cargoService = require('../services/cargoService');
 const corteService = require('../services/corteService');
 const empresaService = require('../services/empresaService');
-const coFacturacionSucursalService = require('../services/coFacturacionSucursalService');
+
 //const inscripcionService = require('../services/inscripcionService');
 
 //const inscripcionService = require('../services/inscripcionService');

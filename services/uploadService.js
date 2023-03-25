@@ -1,6 +1,5 @@
 const uploadCloudinaryDao = require('../dao/uploadCoudinaryDao');
 const alumnoDao = require('../dao/alumnoDao');
-const articuloDao = require('../dao/articuloDao');
 const CONSTANTES = require('../utils/Constantes');
 
 async function upload(idAlumno, genero, imagen) {

@@ -7,8 +7,7 @@ const CONSTANTES = require('../utils/Constantes');
 
 //const notificacionService = require('../utils/NotificacionService');
 const { getHtmlPreviewTemplate, TEMPLATES } = require('../utils/CorreoService');
-const cursoSemanasService = require('./cursoSemanasService');
-const { getSemanaActual } = require('./cursoSemanasService');
+
 const alumnoService = require('./alumnoService');
 
 //registrar cargos
@@ -39,19 +38,6 @@ const registrarCargo = async(cargoData) => {
             respuesta = await guardarCargoGenerico(alumno.id, cat_cargo, cantidad, monto, "", nota, genero);
         }
 
-        //cambio para que la inscripcion se maneje de manera normal 
-
-        /*if (cat_cargo == CONSTANTES.ID_CARGO_INSCRIPCION) {
-            console.log("Es inscripcion");
-            respuesta = await registrarInscripcion(id_curso, alumno.id, genero);
-        }
-
-        if (cat_cargo != CONSTANTES.ID_CARGO_INSCRIPCION && cat_cargo != CONSTANTES.ID_CARGO_COLEGIATURA) {        
-            console.log("Es un cargo especial");
-            respuesta = await guardarCargoGenerico(alumno.id, cat_cargo, cantidad, monto, "", nota, genero);
-        }*/
-
-        //enviar correo de recibo
 
         return respuesta;
     } catch (error) {
@@ -67,15 +53,6 @@ const registrarInscripcion = async(idCurso, idAlumno, genero) => {
     console.log(`idCurso ${idCurso} idAlumno ${idAlumno} genero ${genero}`);
 
     const ID_CARGO_INSCRIPCION = 2;
-
-    // const cargoInscripcion = await cargosDao.buscarCargoInscripcion(idCurso, idAlumno);
-
-    /*if (cargoInscripcion != null) {
-        console.log("                                          ");
-        console.log("   YA TIENE INSCRIPCION AGREGADA ");
-        console.log("                                          ");
-
-    } else {*/
 
     const inscripcionAlumno = await inscripcionDao.getInscripcionAlumnoCurso(idAlumno, idCurso);
 
@@ -119,12 +96,7 @@ const registrarColegiaturaAlumnoSemanaActualAutomatico = async() => {
     for (let i = 0; i < listaInfoCrearColegiaturasSemanaActual.length; i++) {
 
         const cursoSemanaActual = listaInfoCrearColegiaturasSemanaActual[i];
-        /*c.id as id_semana_actual,
-        c.co_curso,
-        c.numero_semana_curso,      		  	  	
-        array_to_json(array_agg(row_to_json((inscripcion.*))))::text array_alumnos,
-        count(inscripcion.*) as contador_alumnos*/
-
+   
         console.log(`${i} - Creando colegiaturas para la semana ${cursoSemanaActual.numero_semana_curso} 
                         del curso ${cursoSemanaActual.co_curso} total de alumnos a generar colegiaturas ${cursoSemanaActual.contador_inscripciones}`);
 
@@ -187,35 +159,6 @@ const registrarColegiaturaAlumnoMensualActualAutomatico = async() => {
 
 }
 
-
-
-const registrarColegiaturaAlumnoSemanaActual = async(idCurso, idAlumno, genero) => {
-
-    console.log("@registrarColegiaturaAlumnoSemanaActual");
-
-    //obtener Semana ocurriendo
-    const cursoSemanaActual = await cursoSemanasService.getSemanaActualCurso(idCurso);
-
-    console.log(JSON.stringify(cursoSemanaActual));
-
-    //verificar existencia del registro
-    const cargoColegiatura = await cargosDao.buscarCargoColegiatura(idCurso, cursoSemanaActual.id, idAlumno);
-    //const existeCargoColegiatura = (cursoSemana.co_cargo_colegiatura != null);
-
-    console.log("      Colegiatura " + JSON.stringify(cargoColegiatura));
-
-    if (cargoColegiatura != null) {
-        console.log("                                          ");
-        console.log(">> YA EXISTE LA COLEGIATURA DE LA SEMANA ");
-        console.log("                                          ");
-    } else {
-        //const idColegiatura = await  guardarColegiatura(idCurso,idAlumno,cursoSemanaActual.id,'',`Semana ${cursoSemana.numero_semana_curso}`,`Sem-${cursoSemana.numero_semana_curso} ${cursoSemana.modulo}-${cursoSemana.materia_modulo}`, genero);
-        const idColegiatura = await guardarColegiatura(idCurso, idAlumno, cursoSemanaActual.id, '', genero);
-        // await cursoSemanasService.guardarRealcionCargoCursoSemana(cursoSemanaActual.id,idColegiatura,genero);
-        console.log("cargo registrado " + idColegiatura);
-    }
-
-}
 
 
 const registrarColegiatura = async(idCurso, idAlumno, idCursoSemana, genero) => {

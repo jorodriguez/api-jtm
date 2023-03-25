@@ -1,1 +1,0 @@
-alter table co_template add column template_estado_cuenta_detallado text;
