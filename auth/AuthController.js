@@ -1,4 +1,3 @@
-
 const handle = require('../helpers/handlersErrors');
 
 const authService = require('../services/authService');
@@ -8,6 +7,8 @@ const login = (request, response) => {
     try {
 
         const { correo, password } = request.body;
+
+        console.log(`correo ${correo} pass ${password}`);
 
         authService
             .login(correo, password)
@@ -82,6 +83,8 @@ const cambiarSucursalUsuario = (request, response) => {
 
 
 module.exports = {
-    login, obtenerSucursalesUsuario, cambiarSucursalUsuario
+    login,
+    obtenerSucursalesUsuario,
+    cambiarSucursalUsuario
     // encriptar
 };
