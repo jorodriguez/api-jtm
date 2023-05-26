@@ -74,10 +74,41 @@ delete from cat_marca;
 
 delete from cat_unidad_medida;
 
+delete from cat_especialidad where co_sucursal <>1 ;
 
-voy aqui
+delete from usuario where co_empresa <>1;
 
 delete from usuario where id > 125;
+
+ALTER SEQUENCE usuario_id_seq RESTART WITH 125;
+
+---------------------------------------------
+
+delete from cat_dia where co_empresa in (2,3,4);
+
+delete from cat_tipo_gasto where co_empresa in (2,3,4);
+
+delete from co_consecutivo where co_empresa in (2,3,4);
+
+delete from co_facturacion_sucursal;
+
+delete from co_sucursal where  co_empresa in (2,3,4);
+
+delete from si_usuario_sucursal_rol where co_empresa in (2,3,4);
+
+
+update co_empresa set co_template = 1  where id <> 1;
+
+delete from co_template where id in (3,4);
+
+
+delete from co_empresa where id in (2,3,4)
+
+
+update co_sucursal set nombre = 'suc 2',eliminado = true where id = 2;
+update co_sucursal set nombre = 'suc 3',eliminado = true where id = 3;
+
+
 
 
 
