@@ -1,5 +1,5 @@
 {
-    "name": "node-api-postgres",
+    "name": "jtm-api",
     "version": "1.0.0",
     "description": "Api diseñada para atender peticiones de clientes",
     "main": "index.js",
