@@ -116,3 +116,71 @@ update co_sucursal set nombre = 'suc 3',eliminado = true where id = 3;
 
 
 
+
+drop table ve_venta_detalle;
+
+drop table ve_venta;
+
+
+drop table ve_movimiento;
+
+drop table cat_articulo_sucursal;
+
+drop table cat_articulo
+
+drop table cat_tipo_movimiento;
+
+drop table co_aviso_publicacion;
+
+drop table co_grupo;
+
+
+drop table co_asistencia;
+
+drop table co_asistencia_usuario;
+
+drop table co_aviso;
+
+drop table co_curso_movimiento;
+
+drop table cat_unidad_medida;
+
+drop table cat_categoria;
+
+drop table cat_marca;
+
+
+
+	
+	
+	update si_rol set nombre = 'ADMIN-MULTITRAINER', descripcion = 'Refiere al entregador, o la persona que pone circuitos ' where id = 1;
+
+	update si_rol set nombre = 'MULTITRAINER', descripcion='Refiere a la persona que toma los entrenamientos en resúmen el cliente o alumno' where id = 2;
+
+	
+	delete from si_rol_opcion where si_opcion > 2;
+
+	delete from si_rol_opcion where si_rol > 2;
+
+	delete from si_opcion where id > 2;
+
+	delete from si_usuario_sucursal_rol where si_rol > 2;
+		
+	delete from si_rol where id > 2;
+
+update si_usuario_sucursal_rol set usuario = 10, si_rol=1 where id = 126;
+
+update si_rol_opcion set si_rol = 1;
+
+update usuario set nombre = 'Joel Rodriguez', correo='joel.rod.roj@hotmail.com', activo= true, acceso_sistema = true where id= 17;
+
+				update si_usuario_sucursal_rol set usuario = 17, si_rol= 2 where id = 127
+
+
+
+update co_sucursal set logotipo = 'https://res.cloudinary.com/dyw8zqyyt/image/upload/v1685474182/jtm-static/logo_fondo_azul_qdm6bj.png',
+					foto = 'https://res.cloudinary.com/dyw8zqyyt/image/upload/v1685474182/jtm-static/logo_fondo_azul_qdm6bj.png'
+
+update co_empresa set logotipo = 'https://res.cloudinary.com/dyw8zqyyt/image/upload/v1685474182/jtm-static/logo_fondo_azul_qdm6bj.png'
+
+update co_sucursal set nombre = 'JTM Monterrey' where id = 1
