@@ -3,9 +3,26 @@ const app = require('./routes/app');
 const multer = require('multer');
 const fileUpload = multer();
 
-const authController = require('./auth/AuthController');
+//const authController = require('./auth/AuthController');
 
 const loginRoutes = require('./routes/login');
+const categoriaRoutes = require('./routes/catCategoria');
+const especialidadRoute = require('./routes/especialidad');
+const usuarioRoute = require('./routes/usuario');
+const siUsuarioSucursalRol = require('./routes/siUsuarioSucursalRol');
+//const uploadCloudinary = require('./controllers/uploadCloudinary');
+const catEjercicios = require('./routes/catEjercicios');
+
+app.use('/auth', loginRoutes);
+app.use('categoria', categoriaRoutes);
+
+app.use('/especialidad', especialidadRoute);
+app.use('/usuario', usuarioRoute);
+app.use('/usuario-rol', siUsuarioSucursalRol);
+app.use('/ejercicios', catEjercicios);
+
+
+
 /*
 
 const pagos = require('./controllers/pagos');
@@ -18,34 +35,33 @@ const catagolos = require('./controllers/catalogos');
 const conf = require('./controllers/configuracion');
 const https = require("https");
 const { validarTokenCompleto } = require('./helpers/helperToken');
-const uploadCloudinary = require('./controllers/uploadCloudinary');
+
 
 
 const checkAuth = require('./routes/check-auth');
 const schedulerJob = require('./routes/schedulerJob');
 const alumnoRoute = require('./routes/alumno');
 const inscripcionRoute = require('./routes/inscripcion');
-const especialidadRoute = require('./routes/especialidad');
+
 //const asistenciaUsuariosRoute = require('./routes/asistenciaUsuarios');
 const usuarioRhRoute = require('./routes/usuariosRh');
 const corte = require('./routes/corte');
 const cobranza = require('./routes/cobranza');
-const usuarioRoute = require('./routes/usuario');
+
 //const siRol = require('./routes/siRol');
-const siUsuarioSucursalRol = require('./routes/siUsuarioSucursalRol');
+
 const reportesController = require('./routes/reportesController');
 const esquemaPagoController = require('./routes/catEsquemaPago');
 */
 
-app.use('/auth', loginRoutes);
+
 /*
 app.use('/alumnos', alumnoRoute);
 app.use('/inscripcion', inscripcionRoute);
-app.use('/especialidad', especialidadRoute);
+
 app.use('/reportes', corte);
 app.use('/cobranza', cobranza);
-app.use('/usuario', usuarioRoute);
-app.use('/usuario-rol', siUsuarioSucursalRol);
+
 app.use('/reportes', reportesController);
 app.use('/esquema-pago', esquemaPagoController);
 
@@ -142,9 +158,10 @@ app.get('/configuracion', checkAuth, conf.getConfiguracion);
 //sucursales y cambios
 app.get('/sucursal/:id_empresa', checkAuth, sucursales.getSucursalPorEmpresa);
 app.put('/cambio_sucursal/:id_alumno', checkAuth, alumnoSucursal.cambiarSucursalAlumno);
-
+*/
 
 //Subir imagen
+/*
 app.post('/foto_perfil', checkAuth, fileUpload.single('image'), (req, res) => {
     let respuesta = validarTokenCompleto(req, res);
 
@@ -156,6 +173,6 @@ app.post('/foto_perfil', checkAuth, fileUpload.single('image'), (req, res) => {
         uploadCloudinary.uploadImagenPerfil(req, res);
     }
 });
-*/
 
+*/
 console.log("---------registro de todos los endpoints finalizados -----------------");

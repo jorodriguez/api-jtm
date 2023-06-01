@@ -193,3 +193,5 @@ update si_opcion set nombre = 'Administrar', ruta='administrar' where id = 2;
 update si_opcion set eliminado = false
 
 update si_opcion set icono_menu = 'mdi-weigth-lifter' where id = 1;
+
+update si_opcion set si_opcion=null;

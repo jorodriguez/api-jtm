@@ -30,7 +30,7 @@ async function upload(idAlumno, genero, imagen) {
 
             const ruta = `${alumno.nombre_folder_empresa}/${alumno.nombre_folder_sucursal}/${CONSTANTES.FOLDER_PERFILES_CLOUDNARY}`;
 
-            let resultImagen = await uploadCloudinaryDao.uploadCloud(imagen,ruta);
+            let resultImagen = await uploadCloudinaryDao.uploadCloud(imagen, ruta);
             console.log("ResulT " + JSON.stringify(resultImagen));
 
             if (resultImagen.upload) {
@@ -47,7 +47,7 @@ async function upload(idAlumno, genero, imagen) {
 }
 
 
-const uploadImagenArticulo = async (idArticulo, genero, imagen) =>{
+const uploadImagenArticulo = async(idArticulo, genero, imagen) => {
     console.log("@upload" + idArticulo);
     console.log("@upload" + genero);
     console.log("@upload" + (imagen !== undefined));
@@ -75,7 +75,7 @@ const uploadImagenArticulo = async (idArticulo, genero, imagen) =>{
 
             const ruta = `${alumno.nombre_folder_empresa}/${alumno.nombre_folder_sucursal}/${CONSTANTES.FOLDER_PERFILES_CLOUDNARY}`;
 
-            let resultImagen = await uploadCloudinaryDao.uploadCloud(imagen,ruta);
+            let resultImagen = await uploadCloudinaryDao.uploadCloud(imagen, ruta);
             console.log("ResulT " + JSON.stringify(resultImagen));
 
             if (resultImagen.upload) {
@@ -89,7 +89,12 @@ const uploadImagenArticulo = async (idArticulo, genero, imagen) =>{
         console.log("ERROR  " + JSON.stringify(e));
         return false;
     }
-
 }
 
-module.exports = { upload,uploadImagenArticulo }
+
+async function uploadFile(file, path) {
+    return await uploadCloudinaryDao.uploadCloud(file, path);
+}
+
+
+module.exports = { upload, uploadImagenArticulo, uploadFile }

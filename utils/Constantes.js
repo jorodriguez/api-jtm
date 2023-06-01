@@ -74,6 +74,7 @@ const SIN_COPIA = '';
 
 //nombre del folder donde se guardan la foto de los alumnos
 const FOLDER_PERFILES_CLOUDNARY = "perfiles_alumnos";
+const FOLDER_EJERICIOS_CLOUDNARY = "ejercicios";
 
 const TIPO_PUBLICACION = { EMPRESA: 1, SUCURSAL: 2, GRUPO: 3, CONTACTO: 4 };
 
@@ -102,5 +103,6 @@ module.exports = {
     ID_CARGO_INSCRIPCION,
     TIPO_TEMPLATE,
     TEMPLATES,
-    SI_ESTATUS
+    SI_ESTATUS,
+    FOLDER_EJERICIOS_CLOUDNARY
 };

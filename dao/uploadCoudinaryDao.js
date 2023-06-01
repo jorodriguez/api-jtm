@@ -1,4 +1,3 @@
-
 /*const request = require('request');
 var FormData = require('form-data');
 */
@@ -7,18 +6,12 @@ const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
 
 //var https = require('https');
-/*
-nueva cuenta
-cloudinary.config({ 
-  cloud_name: 'dwttlkcmu', 
-  api_key: '821887327853153', 
-  api_secret: 'Azl0A2gKfrmfGRX0sPgy1WHNJ94' 
-});
-*/ 
+
+//-- esta logeadon con la cuenta de softlineas@gmail.com
 cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME || 'dyabmkg2p',
-    api_key: process.env.CLOUD_API_KEY || '218132278626194',
-    api_secret: process.env.CLOUD_SECRET || "w2Vl4p_LNrqU3iSo4-fXxKqoESg"
+    cloud_name: process.env.CLOUD_NAME || 'dyw8zqyyt',
+    api_key: process.env.CLOUD_API_KEY || '751463643951221',
+    api_secret: process.env.CLOUD_SECRET || "i7RCbZSHebZzmIJquEGjnIIo45E"
 });
 
 
@@ -33,8 +26,7 @@ const uploadCloud = (buffer, folder) => {
                 return;
             }
 
-            let stream = cloudinary.uploader.upload_stream(
-                { folder: folder },
+            let stream = cloudinary.uploader.upload_stream({ folder: folder },
                 (error, result) => {
                     if (result) {
                         console.log("Upload OK Cloudinary " + result);
@@ -56,15 +48,16 @@ const uploadCloud = (buffer, folder) => {
 
 const destroyFoto = (public_id) => {
     return new Promise((resolve, reject) => {
-        try {          
-            cloudinary.uploader.destroy(public_id, function (error, result) {
+        try {
+
+            cloudinary.uploader.destroy(public_id, function(error, result) {
                 console.log(result, error);
-                console.log(""+result);
-                if(result.result == 'ok'){
+                console.log("" + result);
+                if (result.result == 'ok') {
                     console.log("Imagen eliminada");
                     resolve(true);
-                }else{
-                    console.log("error al eliminar la imagen "+error);
+                } else {
+                    console.log("error al eliminar la imagen " + error);
                     reject(false);
                 }
             });
@@ -75,7 +68,6 @@ const destroyFoto = (public_id) => {
     });
 
 };
-
 
 
 
@@ -126,4 +118,4 @@ const uploadCloud = (imagen) => {
 };
 */
 
-module.exports = { uploadCloud,destroyFoto };
+module.exports = { uploadCloud, destroyFoto };
