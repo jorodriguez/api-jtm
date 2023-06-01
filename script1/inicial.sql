@@ -184,3 +184,12 @@ update co_sucursal set logotipo = 'https://res.cloudinary.com/dyw8zqyyt/image/up
 update co_empresa set logotipo = 'https://res.cloudinary.com/dyw8zqyyt/image/upload/v1685474182/jtm-static/logo_fondo_azul_qdm6bj.png'
 
 update co_sucursal set nombre = 'JTM Monterrey' where id = 1
+
+update si_opcion set nombre = 'Entrenamiento', ruta='entrenamiento' where id = 1;
+
+
+update si_opcion set nombre = 'Administrar', ruta='administrar' where id = 2;
+
+update si_opcion set eliminado = false
+
+update si_opcion set icono_menu = 'mdi-weigth-lifter' where id = 1;
