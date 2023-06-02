@@ -38,9 +38,9 @@ const create = async(request, response) => {
     console.log("@create");
     try {
 
-        //console.log(request)
+        console.log(request.body)
 
-        const data = { co_sucursal, cat_categoria, co_empresa, genero } = request.body;
+        const data = request.body;
 
         const image = request.file.buffer;
 

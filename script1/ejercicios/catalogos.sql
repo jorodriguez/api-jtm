@@ -54,3 +54,7 @@ CREATE TABLE cat_ejercicios
 	modifico integer references usuario(id),
 	eliminado boolean NOT NULL DEFAULT false    
 );
+
+
+insert into cat_categoria(id,nombre,descripcion,genero)
+values(1,'BASIC','Ejercicios basicos',1)
