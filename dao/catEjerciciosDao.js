@@ -132,13 +132,9 @@ from cat_ejercicios e inner join co_sucursal suc on suc.id = e.co_sucursal
 				  inner join cat_categoria cat on cat.id = e.cat_categoria
 where  ${criterio ? criterio : ''} 
       ${criterio ? ' and ' : ''}      
-      and e.eliminado = false
+      e.eliminado = false
 order by e.fecha_genero desc
-where
-    
-	a.eliminado = false
-	and art.eliminado = false   
-    order by a.codigo 
+
 `
 
 module.exports = {

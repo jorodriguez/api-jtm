@@ -6,7 +6,9 @@ const getEjerciciosSucursal = async(request, response) => {
     console.log("@getEjerciciosSucursal");
     try {
 
-        const results = await catEjericiosService.getEjerciciosSucursal();
+        const co_sucursal = request.params.co_sucursal;
+
+        const results = await catEjericiosService.getEjerciciosSucursal(co_sucursal);
 
         response.status(200).json(results);
 
