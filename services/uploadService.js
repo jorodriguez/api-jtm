@@ -96,5 +96,8 @@ async function uploadFile(file, path) {
     return await uploadCloudinaryDao.uploadCloud(file, path);
 }
 
+async function deleteFile(public_id) {
+    return await uploadCloudinaryDao.destroyFoto(public_id);
+}
 
-module.exports = { upload, uploadImagenArticulo, uploadFile }
+module.exports = { upload, uploadImagenArticulo, uploadFile, deleteFile }

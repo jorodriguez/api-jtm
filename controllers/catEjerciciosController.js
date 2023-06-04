@@ -1,6 +1,6 @@
 const handle = require('../helpers/handlersErrors');
 
-const catEjericiosService = require('../services/catEjericiosService');
+const catEjericiosService = require('../services/catEjerciciosService');
 
 const getEjerciciosSucursal = async(request, response) => {
     console.log("@getEjerciciosSucursal");
@@ -17,6 +17,8 @@ const getEjerciciosSucursal = async(request, response) => {
         handle.callbackErrorNoControlado(e, response);
     }
 };
+
+
 
 
 /*
@@ -56,9 +58,32 @@ const create = async(request, response) => {
     }
 };
 
+const remove = async(request, response) => {
+    console.log("@delete");
+    try {
+        
+        const id = request.params.uuid;
+
+        const data = request.body;
+
+        const results = await catEjericiosService.remove(uuid,data);
+
+        response.status(200).json(results);
+
+    } catch (e) {
+        console.log(e);
+        handle.callbackErrorNoControlado(e, response);
+    }
+};
+
+
+
+
+
 
 
 module.exports = {
     getEjerciciosSucursal,
-    create
+    create,
+    remove
 };

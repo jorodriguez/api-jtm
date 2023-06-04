@@ -41,12 +41,31 @@ const guardar = async(data) => {
     const catEjercicioNuevo = await catEjerciciosDao.createEjercicio(catEjercicio);
 
     console.log(catEjercicioNuevo)
+}
 
 
+
+const remove = async(uuid,data) => {
+    console.log("@remove")
+
+    //consultar el id de ejercicio
+    const ejercicioData = await catEjerciciosDao.findByUuid(uuid);
+
+    if(!ejercicioData)
+        throw new Error("No existe el Uuid");
+    
+    //eliminar el archivo 
+     const resultRemoveFile  = await uploadService.deleteFile(ejercicioData.public_id_imagen);
+
+    //eliminar el registro
+    const result = await catEjerciciosDao.remove(ejercicioData.id,data);
+
+    return result;
 }
 
 
 module.exports = {
     getEjerciciosSucursal: catEjerciciosDao.getEjerciciosSucursal,
-    guardar
+    guardar,
+    remove
 };
