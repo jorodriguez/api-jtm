@@ -8,6 +8,7 @@ const fileUpload = multer();
 // catalogo de ejercicios
 
 router.post('/', checkAuth, fileUpload.single('image'), catEjerciciosController.create);
+router.put('/:uuid', checkAuth, catEjerciciosController.edit);
 router.get('/:co_sucursal', checkAuth, catEjerciciosController.getEjerciciosSucursal);
 router.delete('/:uuid', checkAuth, catEjerciciosController.remove);
 

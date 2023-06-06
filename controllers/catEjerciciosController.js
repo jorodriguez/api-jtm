@@ -58,15 +58,35 @@ const create = async(request, response) => {
     }
 };
 
-const remove = async(request, response) => {
-    console.log("@delete");
+const edit = async(request, response) => {
+    console.log("@edit");
     try {
-        
-        const id = request.params.uuid;
+
+        console.log(request.body)
+
+        const uuid = request.params.uuid;
 
         const data = request.body;
 
-        const results = await catEjericiosService.remove(uuid,data);
+        const results = await catEjericiosService.editar(uuid, data);
+
+        response.status(200).json(results);
+
+    } catch (e) {
+        console.log(e);
+        handle.callbackErrorNoControlado(e, response);
+    }
+};
+
+const remove = async(request, response) => {
+    console.log("@delete");
+    try {
+
+        const uuid = request.params.uuid;
+
+        const data = request.body;
+
+        const results = await catEjericiosService.remove(uuid, data);
 
         response.status(200).json(results);
 
@@ -85,5 +105,6 @@ const remove = async(request, response) => {
 module.exports = {
     getEjerciciosSucursal,
     create,
+    edit,
     remove
 };

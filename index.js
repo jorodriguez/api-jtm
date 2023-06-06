@@ -14,7 +14,7 @@ const siUsuarioSucursalRol = require('./routes/siUsuarioSucursalRol');
 const catEjercicios = require('./routes/catEjercicios');
 
 app.use('/auth', loginRoutes);
-app.use('categoria', categoriaRoutes);
+app.use('/categoria', categoriaRoutes);
 
 app.use('/especialidad', especialidadRoute);
 app.use('/usuario', usuarioRoute);

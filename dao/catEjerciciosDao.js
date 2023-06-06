@@ -3,12 +3,12 @@ const { knex } = require('../db/conexion');
 const CatEjercicio = require('../models/CatEjercicio')
 
 
-const getEjerciciosSucursal = async (coSucursal) => {
+const getEjerciciosSucursal = async(coSucursal) => {
     console.log('@getEjerciciosSucursal')
     return await genericDao.findAll(queryBase(` suc.id = $1 `), [coSucursal])
 }
 
-const findEjercicioUuid = async (coSucursal, uuid) => {
+const findEjercicioUuid = async(coSucursal, uuid) => {
     console.log('@findEjercicioUuid')
 
     return await genericDao.findOne(
@@ -16,14 +16,14 @@ const findEjercicioUuid = async (coSucursal, uuid) => {
     );
 }
 
-const findByUuid = async ( uuid) => {
+const findByUuid = async(uuid) => {
     console.log('@findByUuid')
     return await genericDao.findOne(
-        queryBase(` e.uuid = $2   `), [ uuid],
+        queryBase(` e.uuid = $1   `), [uuid],
     );
 }
 
-const getEjercicioPorNombre = async (coSucursal, nombre) => {
+const getEjercicioPorNombre = async(coSucursal, nombre) => {
 
     console.log('@getEjercicioPorNombre')
     return await genericDao.findAll(
@@ -31,7 +31,7 @@ const getEjercicioPorNombre = async (coSucursal, nombre) => {
     );
 }
 
-const getEjerciciosPorCategoria = async (coSucursal, catCategoria) => {
+const getEjerciciosPorCategoria = async(coSucursal, catCategoria) => {
     console.log('@getEjerciciosPorCategoria')
     return await genericDao.findAll(queryBase(` cat.id = $2 and suc.id = $1 `), [
         coSucursal,
@@ -40,7 +40,7 @@ const getEjerciciosPorCategoria = async (coSucursal, catCategoria) => {
 }
 
 
-const createEjercicio = async (data) => {
+const createEjercicio = async(data) => {
     console.log('@createEjercicio')
 
     try {
@@ -76,6 +76,22 @@ const createEjercicio = async (data) => {
         return false
     }
 }
+
+
+
+const editEjercicio = async(uuid, data) => {
+    console.log('@editarEjercicio')
+
+    try {
+
+        return await knex("cat_ejercicios").update({ fecha_modifico: "current_timestamp", ...data }).where({ uuid: uuid }).returning('*');
+
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 /*
 const updateArticulo = async(id, data) => {
     console.log('@updateArticulo')
@@ -106,11 +122,11 @@ const updateArticulo = async(id, data) => {
 }
 */
 
-const remove = async (id, data) => {
+const remove = async(id, data) => {
     console.log('@delete')
 
-    const result = await  genericDao.eliminarPorId("CAT_EJERCICIO",id,data.genero);
-    
+    const result = await genericDao.eliminarPorId("CAT_EJERCICIOS", id, data.genero);
+
     return result;
 }
 
@@ -118,12 +134,16 @@ const remove = async (id, data) => {
 const queryBase = (criterio) => `
 select e.id,
 	  suc.nombre as sucursal,
+      cat.id as cat_categoria,
 	  cat.nombre as categoria,
 	  e.nombre,
 	  e.descripcion,
 	  e.url,
 	  e.public_id_imagen,
-	  e.uuid	  
+	  e.uuid,
+      e.basico,
+      e.intermedio,
+      e.avanzado	  
 from cat_ejercicios e inner join co_sucursal suc on suc.id = e.co_sucursal
 				  inner join cat_categoria cat on cat.id = e.cat_categoria
 where  ${criterio ? criterio : ''} 
@@ -140,5 +160,6 @@ module.exports = {
     getEjerciciosPorCategoria,
     findByUuid,
     createEjercicio,
+    editEjercicio,
     remove
 }

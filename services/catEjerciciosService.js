@@ -6,7 +6,7 @@ const CatEjercicio = require('../models/CatEjercicio')
 
 const guardar = async(data) => {
 
-    const { co_empresa, co_sucursal, cat_categoria, nombre, descripcion, genero } = data;
+    const { co_empresa, co_sucursal, cat_categoria, nombre, descripcion, basico, intermedio, avanzado, genero } = data;
 
     let nombreFolderCategoria = cat_categoria;
 
@@ -14,14 +14,10 @@ const guardar = async(data) => {
 
     const ruta = `${sucursalInfo.folder_empresa}/${sucursalInfo.folder_sucursal}/${CONSTANTES.FOLDER_EJERICIOS_CLOUDNARY}/${nombreFolderCategoria}`;
 
-    //console.log(`RUTA -> ${ruta}`);
-
     console.log(`RUTA -> ${data}`);
 
     //guardar la imagen y actualizar
     const meta_imagen = await uploadService.uploadFile(data.image, ruta);
-
-    //console.log(`META ${JSON.stringify(meta_imagen)}`);
 
     delete data.name;
 
@@ -35,6 +31,9 @@ const guardar = async(data) => {
         .setUrl(meta_imagen.secure_url)
         .setPublicIdImagen(meta_imagen.public_id)
         .setMetaImagen(meta_imagen)
+        .setBasico(basico)
+        .setIntermedio(intermedio)
+        .setAvanzado(avanzado)
         .buildForInsert();
 
     //crear el registro
@@ -44,21 +43,48 @@ const guardar = async(data) => {
 }
 
 
+const editar = async(uuid, data) => {
 
-const remove = async(uuid,data) => {
+    const { cat_categoria, nombre, descripcion, basico, intermedio, avanzado, genero } = data;
+
+    const catEjercicio = new CatEjercicio()
+        .setCatCategoria(cat_categoria)
+        .setNombre(nombre)
+        .setDescripcion(descripcion)
+        .setModifico(genero)
+        .setBasico(basico)
+        .setIntermedio(intermedio)
+        .setAvanzado(avanzado)
+        //        .setFechaModifico(new Date())
+        .buildForUpdate();
+
+    const catEjercicioNuevo = await catEjerciciosDao.editEjercicio(uuid, catEjercicio);
+
+    console.log(catEjercicioNuevo)
+}
+
+
+
+const remove = async(uuid, data) => {
     console.log("@remove")
+
+    let result;
 
     //consultar el id de ejercicio
     const ejercicioData = await catEjerciciosDao.findByUuid(uuid);
 
-    if(!ejercicioData)
+    if (!ejercicioData)
         throw new Error("No existe el Uuid");
-    
-    //eliminar el archivo 
-     const resultRemoveFile  = await uploadService.deleteFile(ejercicioData.public_id_imagen);
 
-    //eliminar el registro
-    const result = await catEjerciciosDao.remove(ejercicioData.id,data);
+    //eliminar el archivo 
+    const resultRemoveFile = await uploadService.deleteFile(ejercicioData.public_id_imagen);
+
+
+    //if (resultRemoveFile && (resultRemoveFile.result == 'ok' || resultRemoveFile.result == 'not found')) {
+    if (resultRemoveFile) {
+        //eliminar el registro
+        result = await catEjerciciosDao.remove(ejercicioData.id, data);
+    }
 
     return result;
 }
@@ -67,5 +93,6 @@ const remove = async(uuid,data) => {
 module.exports = {
     getEjerciciosSucursal: catEjerciciosDao.getEjerciciosSucursal,
     guardar,
+    editar,
     remove
 };

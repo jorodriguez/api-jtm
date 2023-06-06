@@ -14,6 +14,9 @@ class CatCliente {
         this.fecha_genero = null;
         this.fecha_modifico = null;
         this.eliminado = null;
+        this.basico = false;
+        this.intermedio = false;
+        this.avanzado = false;
     }
     setId(id) {
         this.id = id;
@@ -71,6 +74,18 @@ class CatCliente {
         this.eliminado = eliminado;
         return this;
     }
+    setBasico(basico) {
+        this.basico = basico;
+        return this;
+    }
+    setIntermedio(intermedio) {
+        this.intermedio = intermedio;
+        return this;
+    }
+    setAvanzado(avanzado) {
+        this.avanzado = avanzado;
+        return this;
+    }
 
     buildForInsert() {
         return {
@@ -82,7 +97,23 @@ class CatCliente {
             url: this.url,
             public_id_imagen: this.public_id_imagen,
             meta_imagen: this.meta_imagen,
+            basico: this.basico,
+            intermedio: this.intermedio,
+            avanzado: this.avanzado,
             genero: this.genero
+        };
+    }
+
+    buildForUpdate() {
+        return {
+            cat_categoria: this.cat_categoria,
+            nombre: this.nombre,
+            descripcion: this.descripcion,
+            basico: this.basico,
+            intermedio: this.intermedio,
+            avanzado: this.avanzado,
+            fecha_modifico: this.fecha_modifico,
+            modifico: this.modifico
         };
     }
 }

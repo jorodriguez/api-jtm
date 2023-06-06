@@ -58,3 +58,19 @@ CREATE TABLE cat_ejercicios
 
 insert into cat_categoria(id,nombre,descripcion,genero)
 values(1,'BASIC','Ejercicios basicos',1)
+
+
+update cat_categoria set nombre = 'GENERAL';
+
+insert into cat_categoria(nombre,descripcion,genero)
+values('BICEPS','',1),('TRIBICEPS','',1),('CORE','',1),('ESPALDA ALTA','',1),('ESPALDA','',1);
+
+insert into cat_categoria(nombre,descripcion,genero)
+values('ESTIRAMIENTO','',1),('AEROBICO','',1);
+
+
+alter table cat_ejercicios add column basico boolean default false;
+alter table cat_ejercicios add column intermedio boolean default false;
+alter table cat_ejercicios add column avanzado boolean default false;
+
+alter table cat_categoria add column icon varchar(32);
