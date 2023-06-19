@@ -43,6 +43,7 @@ CREATE TABLE op_circuito
 	repeticion integer not null default 1,
 	nombre text not null,				
 	nota text,	
+	actual boolean not null default true,
 	fecha_genero timestamp  DEFAULT (getDate('')+getHora('')),
 	fecha_modifico timestamp,
 	genero integer NOT NULL references usuario(id),
@@ -68,3 +69,6 @@ CREATE TABLE op_detalle_circuito
 	modifico integer references usuario(id),
 	eliminado boolean NOT NULL DEFAULT false    
 );
+
+
+alter table op_rutina add column uuid UUID not null default uuid_generate_v4();
