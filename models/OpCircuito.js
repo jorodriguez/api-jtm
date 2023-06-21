@@ -68,15 +68,11 @@ class CatCliente {
         return this;
     }
 
-    build() {
+    buildforInsert() {
         return {
-            id: this.id,
             co_empresa: this.co_empresa,
             co_sucursal: this.co_sucursal,
             genero: this.genero,
-            modifico: this.modifico,
-            fecha_genero: this.fecha_genero,
-            fecha_modifico: this.fecha_modifico,
             nombre: this.nombre,
             numero_semana: this.numero_semana,
             actual: this.actual,

@@ -9,6 +9,7 @@ class CatCliente {
         this.fecha_modifico = null;
         this.eliminado = null;
 
+        this.op_circuito = null;
         this.cat_unidad_repeticion = null;
         this.cat_ejercicios = null;
         this.repeticion = 1;
@@ -52,6 +53,10 @@ class CatCliente {
         this.eliminado = eliminado;
         return this;
     }
+    setOpCircuito(value) {
+        this.op_circuito = value;
+        return this;
+    }
     setCatUnidadRepeticion(value) {
         this.cat_unidad_repeticion = value;
         return this;
@@ -72,14 +77,11 @@ class CatCliente {
 
     build() {
         return {
-            id: this.id,
             co_empresa: this.co_empresa,
             co_sucursal: this.co_sucursal,
             genero: this.genero,
-            modifico: this.modifico,
-            fecha_genero: this.fecha_genero,
-            fecha_modifico: this.fecha_modifico,
             nombre: this.nombre,
+            op_circuito: this.op_circuito,
             cat_unidad_repeticion: this.cat_unidad_repeticion,
             cat_ejercicios: this.cat_ejercicios,
             repeticion: this.repeticion,

@@ -1,6 +1,9 @@
 const genericDao = require('./genericDao');
 const { knex } = require('../db/conexion');
-const CatEjercicio = require('../models/CatEjercicio')
+const OpRutina = require('../models/OpRutina');
+const OpCircuito = require('../models/OpCircuito');
+const OpDetalleCircuito = require('../models/OpDetalleCircuito');
+const CatEjercicio = require('../models/CatEjercicio');
 
 
 const getRutinasSucursal = async(coSucursal) => {
@@ -23,62 +26,108 @@ const findByUuid = async(uuid) => {
     );
 }
 
-const getEjercicioPorNombre = async(coSucursal, nombre) => {
 
-    console.log('@getEjercicioPorNombre')
-    return await genericDao.findAll(
-        queryBase(` lower(a.nombre) like lower('%${nombre}%')  and suc.id = $1 `), [coSucursal],
-    );
-}
+/* Crear la rutina recibe  */
 
-const getEjerciciosPorCategoria = async(coSucursal, catCategoria) => {
-    console.log('@getEjerciciosPorCategoria')
-    return await genericDao.findAll(queryBase(` cat.id = $2 and suc.id = $1 `), [
-        coSucursal,
-        catCategoria,
-    ])
-}
+/*
+
+nombre,
+atleta,
+circuitos [ 
+    OpDetalleCircuito { 
+            cat_ejercicio,
+            cat_unidad_repeticion,
+            cat_ejercicios,
+            repeticion,
+            nombre,
+            nota 
+        }  
+]
 
 
-const createEjercicio = async(data) => {
-    console.log('@createEjercicio')
+*/
+
+const createRutina = async(data = { nombre, atleta, circuitos }) => {
+
+    console.log('@createRutina');
 
     try {
 
-        // const articuloData = Object.assign(new CatEjercicio(), data);
 
-        console.log(JSON.stringify(data));
+        const opRutina = Object.assign(new OpRutina(), data);
 
-        return await knex("cat_ejercicios").insert(data).returning('*');
+        const circuitos = data.circuitos;
 
+        let result = null;
 
-        /*knex.transaction(async(transactionActive) => {
+        //return await knex("cat_ejercicios").insert(data).returning('*');
 
-            const resultsArticulo = await transactionActive(Tables.CAT_ARTICULO)
-                .insert(articuloData.buildForInsert())
+        knex.transaction(async(transactionActive) => {
+
+            const opRutinaRecord = await transactionActive("op_rutina")
+                .insert(opRutina.buildForInsert())
                 .returning('*')
 
-            const rowArticulo = resultsArticulo.length > 0 ? resultsArticulo[0] : null
+            const rowOpRutina = opRutinaRecord.length > 0 ? opRutinaRecord[0] : null;
 
-            const dataInsertArticuloSucursal = articuloSucursalData
-                .setCatArticulo(rowArticulo.id)
-                .build()
-            
-            await transactionActive(Tables.CAT_ARTICULO_SUCURSAL)
-                .insert(dataInsertArticuloSucursal)
-                .returning('*')
-            console.log('Articulo agregado')
-        });*/
+            console.log(` OP_RUTINA SAVED ${rowOpCircuito.id} `);
+
+            //guardar los circuitos
+            for (let i = 0; i < circuitos.length; i++) {
+
+                const circuitoItem = circuitos[i];
+
+                const opCircuitoModel = Object.assign(new OpCircuito(), circuitoItem);
+
+                opCircuitoModel.setOpRutina(rowOpRutina.id);
+
+
+                // *** GUARDAR EL CIRCUITO *** //
+
+                const opCircuitoRecord = await transactionActive("op_circuito")
+                    .insert(opCircuitoModel.buildForInsert())
+                    .build();
+
+                const rowOpCircuito = opCircuitoRecord.length > 0 ? opCircuitoRecord[0] : null;
+
+                console.log(` OP_CIRCUITO SAVED ${rowOpCircuito.id} `);
+
+
+                // *** GUARDAR EL DETALLE DEL CIRCUITO *** //                
+
+                const detalle = circuitoItem.detalle;
+
+                for (let j = 0; j < detalle.length; j++) {
+
+                    const detalleItem = detalle[j];
+
+                    const opDetalleCircuitoModel = Object.assign(new OpDetalleCircuito(), detalleItem);
+
+                    opDetalleCircuitoModel.setOpCircuito(rowOpCircuito.id);
+
+                    const opDetalleCircuitoRecord = await transactionActive("op_detalle_circuito")
+                        .insert(opDetalleCircuitoModel.buildForInsert())
+                        .build();
+
+                    const rowOpDetalleCircuito = opDetalleCircuitoRecord.length > 0 ? opDetalleCircuitoRecord[0] : null;
+
+                    console.log(` OP_DETALLE_CIRCUITO SAVED ${rowOpDetalleCircuito.id} `);
+                }
+            }
+            result = opRutinaRecord;
+        });
+
+        return result;
 
 
     } catch (error) {
         console.log(error)
-        return false
+        return null;
     }
 }
 
 
-
+/*
 const editEjercicio = async(uuid, data) => {
     console.log('@editarEjercicio')
 
@@ -90,7 +139,7 @@ const editEjercicio = async(uuid, data) => {
         console.log(error)
         return false
     }
-}
+}*/
 
 /*
 const updateArticulo = async(id, data) => {
@@ -125,7 +174,7 @@ const updateArticulo = async(id, data) => {
 const remove = async(id, data) => {
     console.log('@delete')
 
-    const result = await genericDao.eliminarPorId("CAT_EJERCICIOS", id, data.genero);
+    const result = await genericDao.eliminarPorId("OP_RUTINA", id, data.genero);
 
     return result;
 }
@@ -150,12 +199,9 @@ ${order ? order : ''}
 `
 
 module.exports = {
-    getEjercicioPorNombre,
-    getEjerciciosSucursal,
-    findEjercicioUuid,
-    getEjerciciosPorCategoria,
+    getRutinasSucursal,
+    findByRutinaUuid,
     findByUuid,
-    createEjercicio,
-    editEjercicio,
+    createRutina,
     remove
 }

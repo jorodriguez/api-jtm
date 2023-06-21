@@ -78,23 +78,18 @@ class CatCliente {
         return this;
     }
 
-    build() {
+    buildForInsert() {
         return {
-            id: this.id,
             co_empresa: this.co_empresa,
             co_sucursal: this.co_sucursal,
             genero: this.genero,
-            modifico: this.modifico,
-            fecha_genero: this.fecha_genero,
-            fecha_modifico: this.fecha_modifico,
             nombre: this.nombre,
             atleta: this.atleta,
             fecha_inicio: this.fecha_inicio,
             fecha_fin: this.fecha_fin,
             public: this.publico,
             numero_semana: this.numero_semana,
-            actual: this.actual,
-            eliminado: this.eliminado,
+            actual: this.actual
         };
     }
 }

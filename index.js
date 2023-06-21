@@ -12,6 +12,7 @@ const usuarioRoute = require('./routes/usuario');
 const siUsuarioSucursalRol = require('./routes/siUsuarioSucursalRol');
 //const uploadCloudinary = require('./controllers/uploadCloudinary');
 const catEjercicios = require('./routes/catEjercicios');
+const rutinas = require('./routes/rutinas');
 
 app.use('/auth', loginRoutes);
 app.use('/categoria', categoriaRoutes);
@@ -20,6 +21,7 @@ app.use('/especialidad', especialidadRoute);
 app.use('/usuario', usuarioRoute);
 app.use('/usuario-rol', siUsuarioSucursalRol);
 app.use('/ejercicios', catEjercicios);
+app.use('/rutina', rutinas);
 
 
 
