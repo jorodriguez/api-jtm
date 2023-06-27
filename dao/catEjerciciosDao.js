@@ -143,7 +143,8 @@ select e.id,
 	  e.uuid,
       e.basico,
       e.intermedio,
-      e.avanzado	  
+      e.avanzado,
+      false as seleccionado	  
 from cat_ejercicios e inner join co_sucursal suc on suc.id = e.co_sucursal
 				  inner join cat_categoria cat on cat.id = e.cat_categoria
 where  ${criterio ? criterio : ''} 
