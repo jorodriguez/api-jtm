@@ -72,3 +72,7 @@ CREATE TABLE op_detalle_circuito
 
 
 alter table op_rutina add column uuid UUID not null default uuid_generate_v4();
+
+alter table cat_unidad_repeticion add column abreviacion varchar(5);
+insert into cat_unidad_repeticion(nombre,abreviacion,genero)
+values('Veces','x',1),('Segundos','seg',1),('Minutos','min',1),('Horas','hr',1);

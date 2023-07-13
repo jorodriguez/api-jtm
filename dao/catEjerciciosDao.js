@@ -144,6 +144,10 @@ select e.id,
       e.basico,
       e.intermedio,
       e.avanzado,
+      '' as nota,
+      1 as repeticiones,
+      1 as cat_unidad_repeticion,
+      false as show,
       false as seleccionado	  
 from cat_ejercicios e inner join co_sucursal suc on suc.id = e.co_sucursal
 				  inner join cat_categoria cat on cat.id = e.cat_categoria
@@ -151,7 +155,6 @@ where  ${criterio ? criterio : ''}
       ${criterio ? ' and ' : ''}      
       e.eliminado = false
 order by e.fecha_genero desc
-
 `
 
 module.exports = {

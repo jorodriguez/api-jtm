@@ -24,15 +24,14 @@ function obtenerCorreosPorTema(co_sucursal, id_tema) {
 
 
 const getUsuarioPorSucursal = (idSucursal, idEmpresa) => {
-    return genericDao.findAll(getQueryBase(""), [idSucursal,idEmpresa]);
+    return genericDao.findAll(getQueryBase(""), [idSucursal, idEmpresa]);
 };
 
 
 const getUsuariosAsesoresPorSucursal = (idSucursal, idEmpresa) => {
     const ROL_ASESOR = 4;
     return genericDao.findAll(
-                        getQueryBase(` AND u.id in (select usuario from si_usuario_sucursal_rol where si_rol = $3 and co_sucursal = $1 and co_empresa = $2 and eliminado = false)`)
-                        , [idSucursal,idEmpresa,ROL_ASESOR]);
+        getQueryBase(` AND u.id in (select usuario from si_usuario_sucursal_rol where si_rol = $3 and co_sucursal = $1 and co_empresa = $2 and eliminado = false)`), [idSucursal, idEmpresa, ROL_ASESOR]);
 };
 /*
 const getUsuarioPorSucursal = (idSucursal, idTipoUsario) => {
@@ -68,17 +67,17 @@ const getUsuarioPorSucursal = (idSucursal, idTipoUsario) => {
 };
 */
 
-const insertarUsuario = async (usuarioData) => {
+const insertarUsuario = async(usuarioData) => {
     console.log("@insertarUsuario");
 
-    const { alias,nombre, correo,cat_tipo_usuario, co_sucursal, hora_entrada,password_encriptado, hora_salida,sueldo_mensual, co_empresa, genero } = usuarioData;
+    const { alias, nombre, correo, cat_tipo_usuario, co_sucursal, hora_entrada, password_encriptado, hora_salida, sueldo_mensual, co_empresa, genero } = usuarioData;
 
     let sql = `
             INSERT INTO USUARIO(ALIAS,NOMBRE,CORREO,CO_SUCURSAL,CAT_TIPO_USUARIO,HORA_ENTRADA,HORA_SALIDA,PASSWORD,SUELDO_MENSUAL,SUELDO_QUINCENAL,CO_EMPRESA,ACCESO_SISTEMA,GENERO)
             VALUES(TRIM(BOTH FROM $1),TRIM(BOTH FROM $2),TRIM($3),$4,$5,$6,$7,$8,$9::numeric,($9::numeric/2)::numeric,$10,true,$11) RETURNING ID;
             `;
     return genericDao
-        .execute(sql, [alias,nombre, correo, co_sucursal,cat_tipo_usuario, hora_entrada, hora_salida, password_encriptado,sueldo_mensual,co_empresa,genero]);
+        .execute(sql, [alias, nombre, correo, co_sucursal, cat_tipo_usuario, hora_entrada, hora_salida, password_encriptado, sueldo_mensual, co_empresa, genero]);
 };
 
 
@@ -89,18 +88,17 @@ const validarCorreoUsuario = (correo) => {
 
 const buscarCorreo = (correo) => {
     return genericDao
-        .findAll(`select * from usuario where TRIM(correo) = TRIM($1) and eliminado = false`
-            , [correo]);
+        .findAll(`select * from usuario where TRIM(correo) = TRIM($1) and eliminado = false`, [correo]);
 };
 
 
 const modificarUsuario = (usuarioData) => {
     console.log("@modificarUsuario");
-    console.log("usuarioDATA "+JSON.stringify(usuarioData));
-    const { id,alias,nombre, correo, hora_entrada, hora_salida,sueldo_mensual, genero } = usuarioData;
+    console.log("usuarioDATA " + JSON.stringify(usuarioData));
+    const { id, alias, nombre, correo, hora_entrada, hora_salida, sueldo_mensual, genero } = usuarioData;
 
     //TIPO_USUARIO.MAESTRA
-    
+
     let sql = `
             UPDATE USUARIO SET 
                             ALIAS = TRIM(BOTH FROM $2),
@@ -115,21 +113,21 @@ const modificarUsuario = (usuarioData) => {
             WHERE id = $1
             returning id;
             `;
-    return genericDao.execute(sql, [id,alias, nombre, correo, hora_entrada, hora_salida,genero,sueldo_mensual]);
+    return genericDao.execute(sql, [id, alias, nombre, correo, hora_entrada, hora_salida, genero, sueldo_mensual]);
 };
 
-const modificarContrasena = async (idUsuario, usuarioData) => {
+const modificarContrasena = async(idUsuario, usuarioData) => {
     console.log("@modificarContrasena");
 
     const { nueva_clave, genero } = usuarioData;
 
     let nuevoPassword = encriptar(nueva_clave);
 
-    return await updateClave(idUsuario,nuevoPassword,genero);    
+    return await updateClave(idUsuario, nuevoPassword, genero);
 };
 
 
-const updateClave = async (idUsuario, usuarioData) => {
+const updateClave = async(idUsuario, usuarioData) => {
     console.log("@modificarContrasena");
 
     const { clave_encriptada, genero } = usuarioData;
@@ -169,7 +167,7 @@ const desactivarUsuario = (idUsuario, usuarioData) => {
 const desactivarUsuarioReporte = (usuarioData) => {
 
     console.log("@desactivarUsuarioReporte");
-    const { id_usuario, visible,genero } = usuarioData;
+    const { id_usuario, visible, genero } = usuarioData;
     let sql = `
             UPDATE USUARIO SET 
                     VISIBLE_REPORTE=$2,
@@ -178,13 +176,13 @@ const desactivarUsuarioReporte = (usuarioData) => {
             WHERE ID = $1     
             RETURNING ID;               
             `;
-    return genericDao.execute(sql, [id_usuario,visible, genero]);
+    return genericDao.execute(sql, [id_usuario, visible, genero]);
 };
 
-const modificarAccesoSistema = (usuarioData = { id_usuario, acceso ,genero }) => {
+const modificarAccesoSistema = (usuarioData = { id_usuario, acceso, genero }) => {
 
     console.log("@modificarAccesoSistema");
-    const { id_usuario, acceso ,genero } = usuarioData;
+    const { id_usuario, acceso, genero } = usuarioData;
     let sql = `
             UPDATE USUARIO SET 
                     ACCESO_SISTEMA = $2,
@@ -193,7 +191,7 @@ const modificarAccesoSistema = (usuarioData = { id_usuario, acceso ,genero }) =>
             WHERE ID = $1     
             RETURNING ID;               
             `;
-    return genericDao.execute(sql, [id_usuario,acceso, genero]);
+    return genericDao.execute(sql, [id_usuario, acceso, genero]);
 };
 
 const buscarUsuarioId = (idUsuario) => {
@@ -201,12 +199,12 @@ const buscarUsuarioId = (idUsuario) => {
     return genericDao.buscarPorId("USUARIO", idUsuario);
 };
 
-const findById = async (idUsuario) => {
+const findById = async(idUsuario) => {
     console.log("@findById");
     return await genericDao.buscarPorId("USUARIO", idUsuario);
 };
 
-const getSucursalesUsuario = (idUsuario)=>{
+const getSucursalesUsuario = (idUsuario) => {
     return genericDao.findAll(
         `
         SELECT DISTINCT suc.*              
@@ -216,12 +214,12 @@ const getSucursalesUsuario = (idUsuario)=>{
             and suc.eliminado = false
         ORDER BY  suc.nombre DESC`
 
-        ,[idUsuario]);
+        , [idUsuario]);
 };
 
 
 
-const getQueryBase = (criterio)=>`
+const getQueryBase = (criterio) => `
    
 SELECT U.ID,
             U.ALIAS,
@@ -255,25 +253,23 @@ SELECT U.ID,
              AND SUC.CO_EMPRESA = $2
              ${criterio}
              AND U.ACTIVO = TRUE
-             AND U.ELIMINADO = FALSE
-             AND U.visible_catalogo = true            
+             AND U.ELIMINADO = FALSE             
         ORDER BY U.NOMBRE`;
 
 module.exports = {
-    obtenerCorreosPorTema
-    , insertarUsuario
-    , modificarUsuario
-    , desactivarUsuario
-    , buscarUsuarioId
-    ,findById
-    , modificarContrasena
-    , getUsuarioPorSucursal
-    , validarCorreoUsuario
-    , buscarCorreo
-    , getSucursalesUsuario 
-    , desactivarUsuarioReporte
-    , updateClave
-    , modificarAccesoSistema
-    , getUsuariosAsesoresPorSucursal
+    obtenerCorreosPorTema,
+    insertarUsuario,
+    modificarUsuario,
+    desactivarUsuario,
+    buscarUsuarioId,
+    findById,
+    modificarContrasena,
+    getUsuarioPorSucursal,
+    validarCorreoUsuario,
+    buscarCorreo,
+    getSucursalesUsuario,
+    desactivarUsuarioReporte,
+    updateClave,
+    modificarAccesoSistema,
+    getUsuariosAsesoresPorSucursal
 };
-

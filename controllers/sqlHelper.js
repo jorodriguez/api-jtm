@@ -1,4 +1,3 @@
-
 const { pool } = require('../db/conexion');
 const handle = require('../helpers/handlersErrors');
 
@@ -9,8 +8,8 @@ const QUERY = {
     GRUPO: "SELECT * FROM CO_GRUPO WHERE ELIMINADO = false",
     SERVICIOS: "SELECT * FROM cat_servicio WHERE CO_EMPRESA = $1 AND ELIMINADO = false order by nombre",
     CARGOS: "SELECT * FROM CAT_CARGO WHERE ELIMINADO = false order by nombre",
-    //SUCURSALES: "SELECT id,nombre,direccion,class_color FROM CO_SUCURSAL WHERE ELIMINADO = false ",
-    TEMPLATE_EMPRESA : `
+    CAT_UNIDAD_REPETICION: "SELECT id,nombre,abreviacion FROM CAT_UNIDAD_REPETICION WHERE ELIMINADO = FALSE",
+    TEMPLATE_EMPRESA: `
     select em.nombre as nombre_empresa,
             em.direccion as direccion_empresa,
             em.telefono as telefono_empresa,		
@@ -21,7 +20,7 @@ const QUERY = {
     where em.id = $1
     and em.activa = true 
     and em.eliminado = false`
-    
+
 };
 
 
@@ -35,12 +34,12 @@ const getCatalogo = (query, response) => {
         }
 
         pool.query(query, (error, results) => {
-                if (error) {
-                    handle.callbackError(error, response);
-                    return;
-                }
-                response.status(200).json(results.rows);
-            });
+            if (error) {
+                handle.callbackError(error, response);
+                return;
+            }
+            response.status(200).json(results.rows);
+        });
 
     } catch (e) {
         handle.callbackErrorNoControlado(e, response);
@@ -99,20 +98,20 @@ const getResultQuery = (query, params, response, handler) => {
     console.log("@getResultQuery");
     try {
 
-       let hadlerGenerico = (results) => {
+        let hadlerGenerico = (results) => {
             console.log("Query Ejecutado correctamente..");
             response.status(200).json(results.rows);
         };
 
-       let handlerCatch = (error) => {
-           console.log("Excepcion al ejecutar el query "+error);
+        let handlerCatch = (error) => {
+            console.log("Excepcion al ejecutar el query " + error);
             handle.callbackError(error, response);
             return;
         };
 
         console.log("*****************************************************");
         getResults(query, params, handler || hadlerGenerico, handlerCatch);
-      
+
 
     } catch (e) {
         handle.callbackErrorNoControlado(e, response);
@@ -129,7 +128,7 @@ const executeQuery = (query, params, response, handler) => {
             return;
         }
 
-      
+
         let tiene_parametros = tieneParametros(params);
 
         let hadlerGenerico = (results) => {
@@ -164,11 +163,11 @@ function tieneParametros(params) {
     return (params != undefined || params != null || params != []);
 }
 
-function getQueryInstance(query,params){
-    
+function getQueryInstance(query, params) {
+
     let tiene_parametros = tieneParametros(params);
 
-    console.log("Tiene parametros "+tiene_parametros+" PARAMS "+JSON.stringify(params));
+    console.log("Tiene parametros " + tiene_parametros + " PARAMS " + JSON.stringify(params));
     //console.log("Query "+query);    
     return tiene_parametros ? pool.query(query, params) : pool.query(query);
 
@@ -177,9 +176,9 @@ function getQueryInstance(query,params){
 
 module.exports = {
     getQueryInstance,
-    QUERY,    
+    QUERY,
     getCatalogo,
-    getResultQuery,    
+    getResultQuery,
     getResults,
-    executeQuery//FIX
+    executeQuery //FIX
 };
