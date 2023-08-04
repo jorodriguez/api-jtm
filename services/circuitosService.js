@@ -18,11 +18,16 @@ const updateRutina = (rutina_id, circuitos) => {
     return res;
 }
 
+const disableRutina = (rutina_id) => {
+    return circuitoDao.disableRutina(rutina_id);
+}
+
 
 
 module.exports = {
     guardar,
     getRutinas,
-    updateRutina
+    updateRutina,
+    disableRutina
 };
 

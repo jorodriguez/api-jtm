@@ -1,7 +1,7 @@
 
 const handle = require('../helpers/handlersErrors');
 
-const {getRutinas, guardar, updateRutina} = require('../services/circuitosService');
+const {getRutinas, guardar, updateRutina, disableRutina} = require('../services/circuitosService');
 
 const guardarCircuitos = async (request, response) => {
     try {
@@ -15,7 +15,7 @@ const guardarCircuitos = async (request, response) => {
         const res = await guardar(rutina);
 
         if (res) {
-           return  response.status(200).json({message:'Muy bien todo se guardo correctamente', success:true})
+           return  response.status(200).json({data:res, success:true})
         } else {
             return  response.status(200).json({message:'Error al guardar la info', success:false})
         }
@@ -61,7 +61,9 @@ const actualizarRutina = async (request, response) => {
         const res = await updateRutina(id_rutina, circuitos)
 
         if (res) {
-           return  response.status(200).json({data: res})
+           return  response.status(200).json({data: res, success:true})
+        } else {
+            return  response.status(200).json({message: 'No existe un elemento con el id proporcionado', success:false})
         }
 
     } catch (e) {
@@ -69,8 +71,30 @@ const actualizarRutina = async (request, response) => {
     }
 };
 
+const desactivarRutina = async (request, response) => {
+    console.log(request)
+    try {
+        const {id_rutina} = request.params;
+
+        if (id_rutina === undefined) {
+            return response.status(200).json({message:'El id es obligatorio'})
+        }
+
+        const res = await disableRutina(id_rutina);
+
+        if (res) {
+            return  response.status(200).json({message:'Desactivado con exito', success:true})
+         } else {
+             return  response.status(200).json({message: 'No existe un elemento con el id proporcionado', success:false})
+         } 
+    } catch (error) {
+        handle.callbackErrorNoControlado(e, response);
+    }
+}
+
 module.exports = {
     guardarCircuitos,
     getRutinasUser,
-    actualizarRutina
+    actualizarRutina,
+    desactivarRutina
 };
