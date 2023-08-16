@@ -14,6 +14,7 @@ const siUsuarioSucursalRol = require('./routes/siUsuarioSucursalRol');
 const catEjercicios = require('./routes/catEjercicios');
 const rutinas = require('./routes/rutinas');
 const catalogos = require('./routes/catalogos');
+const circuitos = require('./routes/circuitos');
 
 app.use('/auth', loginRoutes);
 app.use('/categoria', categoriaRoutes);
@@ -24,6 +25,7 @@ app.use('/usuario-rol', siUsuarioSucursalRol);
 app.use('/ejercicios', catEjercicios);
 app.use('/rutina', rutinas);
 app.use('/catalogos', catalogos);
+app.use('/circuitos', circuitos);
 
 
 
