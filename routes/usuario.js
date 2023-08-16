@@ -12,6 +12,4 @@ router.put('/', checkAuth, usuarioController.modificarUsuario);
 router.put('/:id_usuario', checkAuth, usuarioController.desactivarUsuario);
 router.put('/bloquear-acceso/:id_usuario', checkAuth, usuarioController.bloquearAccesoSistema);
 
-
-
 module.exports = router;
